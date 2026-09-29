@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SARPRAS — SMAS SARASWATI TOLAI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --black:#070a0c; --black2:#10161a; --yellow:#ffd400; --yellow2:#ffea66;
+  --white:#f8fafb; --muted:#8e9aa1; --line:#283137; --bg:#090d10;
+  --danger:#ff4c4c; --green:#31d17c; --blue:#1c9cff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter',Arial,sans-serif;
+  color:var(--white);
+  background:
+    linear-gradient(rgba(5,9,11,.84),rgba(5,9,11,.94)),
+    repeating-linear-gradient(135deg,rgba(255,212,0,.035) 0 2px,transparent 2px 13px),
+    radial-gradient(circle at 70% 5%,rgba(255,212,0,.18),transparent 28%),
+    #080c0f;
+  background-attachment:fixed;
+}
+body:before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:-1;
+  background:
+    linear-gradient(115deg,transparent 0 42%,rgba(255,212,0,.035) 42.1% 42.5%,transparent 42.6%),
+    linear-gradient(295deg,transparent 0 72%,rgba(255,255,255,.025) 72.1% 72.5%,transparent 72.6%);
+}
+button,input,select{font:inherit}
+
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:270px; color:white; position:fixed; inset:0 auto 0 0; z-index:20;
+  padding:0 15px;
+  background:
+    linear-gradient(160deg,rgba(255,212,0,.08),transparent 28%),
+    linear-gradient(180deg,#080b0d,#11171b 55%,#080b0d);
+  border-right:1px solid #2d353a;
+  box-shadow:12px 0 35px #0008;
+}
+.brand{
+  display:flex;align-items:center;gap:12px;padding:22px 10px 20px;
+  border-bottom:1px solid #30383d;
+}
+.logo{
+  width:48px;height:48px;border-radius:5px;
+  background:linear-gradient(145deg,#ffe24a,#e8ad00);
+  color:#111;display:grid;place-items:center;font-weight:900;font-size:21px;
+  transform:skew(-6deg);
+  box-shadow:0 0 0 2px #111,0 8px 25px #ffd4002b;
+}
+.brand strong{display:block;font-family:'Barlow Condensed',sans-serif;font-size:20px;letter-spacing:.8px}
+.brand small{color:#aab3b8;font-size:9px;letter-spacing:1.5px}
+
+.nav{margin-top:20px}
+.nav button{
+  width:100%;border:0;background:transparent;color:#aeb7bc;text-align:left;
+  padding:13px 15px;margin:3px 0;cursor:pointer;font-weight:700;
+  border-left:3px solid transparent;transition:.16s;letter-spacing:.2px;
+}
+.nav button.active,.nav button:hover{
+  background:linear-gradient(90deg,#ffd400,#e8af00);
+  color:#080a0b;border-left-color:#fff;
+  box-shadow:0 7px 20px #ffd40018;
+}
+.side-footer{
+  position:absolute;bottom:20px;left:25px;right:20px;color:#768187;
+  font-size:11px;line-height:1.55;border-top:1px solid #293136;padding-top:13px
+}
+.side-footer b{color:#dce1e4}
+
+.main{margin-left:270px;width:calc(100% - 270px);padding:25px}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;
+  padding:18px 20px;
+  background:linear-gradient(110deg,#151c20,#0d1215);
+  border:1px solid #2c353b;
+  border-left:4px solid var(--yellow);
+  box-shadow:0 10px 35px #0005;
+}
+.topbar h1{
+  margin:0;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
+  font-size:31px;letter-spacing:1.2px
+}
+.topbar p{margin:3px 0 0;color:#859198;font-size:11px;letter-spacing:.7px}
+.user-badge{
+  background:#0a0e10;border:1px solid #333d42;padding:9px 14px;text-align:right;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)
+}
+.user-badge b{display:block;font-size:12px}.user-badge span{font-size:10px;color:#929da3}
+
+.view{display:none}.view.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{
+  position:relative;overflow:hidden;
+  background:linear-gradient(145deg,#171e22,#0e1316);
+  border:1px solid #2e383e;border-radius:3px;padding:18px;
+  box-shadow:0 10px 30px #0007;
+}
+.card:after{
+  content:"";position:absolute;right:-30px;top:-45px;width:120px;height:120px;
+  background:#ffd40010;transform:rotate(25deg);border-left:2px solid #ffd40018
+}
+.card.accent{background:linear-gradient(135deg,#ffd900,#bd8f00);color:#101214;border:0}
+.card.accent .label{color:#393000}
+.card.yellow{background:linear-gradient(135deg,#ffe34a,#dca800);color:#101214;border:0}
+.card .label{font-size:10px;color:#89959b;text-transform:uppercase;letter-spacing:1.4px;font-weight:800}
+.card .value{font-family:'Barlow Condensed',sans-serif;font-size:42px;line-height:1;margin-top:8px;font-weight:800}
+.card.accent .value,.card.yellow .value{font-size:45px}
+
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-top:14px}
+.panel{
+  background:linear-gradient(145deg,rgba(20,27,31,.97),rgba(10,14,17,.97));
+  border:1px solid #2c363c;border-radius:3px;padding:18px;
+  box-shadow:0 10px 35px #0007;
+}
+.panel-head{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #273137
+}
+.panel-head h2{
+  margin:0;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
+  font-size:20px;letter-spacing:1px
+}
+.btn{
+  border:0;border-radius:2px;padding:10px 14px;cursor:pointer;font-weight:800;
+  text-transform:uppercase;font-size:11px;letter-spacing:.7px;transition:.16s;
+  clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)
+}
+.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.btn-primary{background:var(--yellow);color:#0a0c0d}.btn-dark{background:#edf1f2;color:#111}.btn-danger{background:#3a1616;color:#ff6b6b}.btn-light{background:#232c31;color:#dce2e5}
+
+.table-wrap{overflow:auto}
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid #252e33;text-align:left;white-space:nowrap}
+.table th{
+  font-size:9px;color:#77848b;text-transform:uppercase;letter-spacing:1px;
+  background:#0a0e10
+}
+.table tr:hover td{background:#ffffff03}
+.badge{
+  display:inline-block;padding:5px 8px;border-radius:2px;font-size:9px;
+  font-weight:800;text-transform:uppercase;letter-spacing:.7px
+}
+.baik{background:#123b27;color:#55e99a;border:1px solid #1d6c43}
+.rusak{background:#401919;color:#ff7070;border:1px solid #733333}
+.ringan{background:#493c0c;color:#ffe263;border:1px solid #806b18}
+
+.bar{height:8px;background:#252d31;border-radius:0;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#ffd400,#fff0a0)}
+
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.field label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;color:#8d999f;letter-spacing:.8px;margin-bottom:6px}
+.field input,.field select{
+  width:100%;padding:11px;border:1px solid #303a40;border-radius:2px;
+  background:#0b1013;color:#edf0f2;outline:none
+}
+.field input:focus,.field select:focus{border-color:var(--yellow);box-shadow:0 0 0 2px #ffd40012}
+.form-actions{margin-top:16px;display:flex;gap:9px;justify-content:flex-end}
+.search-row{display:flex;gap:10px;margin-bottom:13px}
+.search-row input,.search-row select{padding:10px 12px;border:1px solid #303a40;border-radius:2px;background:#0b1013;color:#edf0f2}
+.search-row input{flex:1}
+.ket{font-size:12px;color:#8d999f;line-height:1.7}
+.empty{text-align:center;color:#69757b;padding:28px}
+.toast{
+  position:fixed;right:22px;bottom:22px;background:#ffd400;color:#0a0c0d;
+  padding:13px 17px;font-weight:800;border-radius:2px;opacity:0;transform:translateY(10px);
+  transition:.25s;z-index:99;box-shadow:0 10px 30px #0009
+}
+.toast.show{opacity:1;transform:none}
+.modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal.show{display:flex}.modal-box{background:#11171b;border:1px solid #374148;border-top:3px solid var(--yellow);padding:20px;width:min(650px,100%);max-height:90vh;overflow:auto}
+
+hr{border-color:#283137!important}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:720px){
+  .sidebar{width:68px;padding:0 8px}.brand{padding:18px 2px}.brand div:not(.logo),.nav button span,.side-footer{display:none}
+  .nav button{text-align:center;padding:13px 5px}.main{margin-left:68px;width:calc(100% - 68px);padding:12px}
+  .topbar{align-items:flex-start;padding:14px}.topbar h1{font-size:23px}.user-badge{display:none}
+  .cards{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.grid{gap:10px}
+}
+@media print{
+  body{background:white;color:#111}.sidebar,.topbar,.btn,.search-row{display:none!important}.main{margin:0;width:100%;padding:0}
+  .panel{background:white;border:0;box-shadow:none}.table th,.table td{color:#111;border-color:#ddd}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">ST</div><div><strong>SMAS SARASWATI</strong><small>TOLAI • SARPRAS</small></div></div>
+  <nav class="nav">
+    <button class="active" data-view="dashboard">▣ <span>Dashboard</span></button>
+    <button data-view="inventaris">▤ <span>Data Inventaris</span></button>
+    <button data-view="tambah">＋ <span>Tambah Data</span></button>
+    <button data-view="laporan">▥ <span>Laporan</span></button>
+    <button data-view="tentang">ⓘ <span>Tentang</span></button>
+  </nav>
+  <div class="side-footer">Wakasek Sarpras<br><b>I Kadek Adi Gunawan, S.Pd.,Gr.</b></div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div><h1 id="pageTitle">Dashboard Sarana Prasarana</h1><p>SMAS SARASWATI TOLAI • Sistem Pendataan Inventaris</p></div>
+  <div class="user-badge"><b>I Kadek Adi Gunawan, S.Pd.,Gr.</b><span>Wakasek Sarpras</span></div>
+</header>
+
+<section id="dashboard" class="view active">
+  <div class="cards">
+    <div class="card accent"><div class="label">Total Barang</div><div class="value" id="statTotal">0</div></div>
+    <div class="card yellow"><div class="label">Kondisi Baik</div><div class="value" id="statBaik">0</div></div>
+    <div class="card"><div class="label">Perlu Perbaikan</div><div class="value" id="statRingan">0</div></div>
+    <div class="card"><div class="label">Rusak Berat</div><div class="value" id="statRusak">0</div></div>
+  </div>
+  <div class="panel" style="margin-top:14px;padding:0;overflow:hidden;background:#10181a">
+    <div style="height:92px;position:relative;overflow:hidden;background:
+      linear-gradient(90deg,#102d20 0 8%,#17462b 8% 16%,#102d20 16% 24%,#17462b 24% 32%,#102d20 32% 40%,#17462b 40% 48%,#102d20 48% 56%,#17462b 56% 64%,#102d20 64% 72%,#17462b 72% 80%,#102d20 80% 88%,#17462b 88%);
+      border-bottom:1px solid #355e43">
+      <div style="position:absolute;inset:12px 16px;border:1px solid #ffffff38"></div>
+      <div style="position:absolute;left:50%;top:12px;bottom:12px;border-left:1px solid #ffffff38"></div>
+      <div style="position:absolute;left:calc(50% - 10px);top:calc(50% - 10px);width:20px;height:20px;border:1px solid #ffffff38;border-radius:50%"></div>
+      <div style="position:absolute;left:20px;top:28px;width:45px;height:36px;border:1px solid #ffffff38"></div>
+      <div style="position:absolute;right:20px;top:28px;width:45px;height:36px;border:1px solid #ffffff38"></div>
+      <div style="position:absolute;left:24px;top:42px;width:7px;height:7px;background:#ffd400;border-radius:50%;box-shadow:0 0 12px #ffd400"></div>
+      <div style="position:absolute;right:25px;top:42px;width:7px;height:7px;background:#fff;border-radius:50%"></div>
+    </div>
+    <div style="padding:10px 15px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-family:'Barlow Condensed';font-size:18px;text-transform:uppercase;letter-spacing:1px">SARPRAS ARENA</span>
+      <span style="font-size:9px;color:#87949a;letter-spacing:1px">SMAS SARASWATI TOLAI</span>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="panel"><div class="panel-head"><h2>Inventaris Terbaru</h2><button class="btn btn-primary" onclick="openAdd()">+ Tambah</button></div><div class="table-wrap"><table class="table"><thead><tr><th>Kode</th><th>Nama Barang</th><th>Lokasi</th><th>Kondisi</th><th>Keterangan</th></tr></thead><tbody id="recentBody"></tbody></table></div></div>
+    <div class="panel"><div class="panel-head"><h2>Ringkasan Kondisi</h2></div><div id="conditionBars"></div></div>
+  </div>
+</section>
+
+<section id="inventaris" class="view">
+  <div class="panel">
+    <div class="panel-head"><h2>Data Inventaris Sarana & Prasarana</h2><div style="display:flex;gap:7px;flex-wrap:wrap"><button class="btn btn-light" onclick="document.getElementById('excelFile').click()">↥ Impor CSV</button><button class="btn btn-light" onclick="downloadCSV()">⇩ Ekspor Spreadsheet</button><button class="btn btn-primary" onclick="openAdd()">+ Tambah Data</button><input id="excelFile" type="file" accept=".csv" style="display:none" onchange="importSpreadsheet(event)"></div></div>
+    <div class="search-row"><input id="search" placeholder="Cari kode, nama barang, lokasi..." oninput="renderTable()"><select id="filter" onchange="renderTable()"><option value="">Semua kondisi</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option></select></div>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Kode</th><th>Nama Barang</th><th>Kategori</th><th>Jumlah</th><th>Lokasi</th><th>Kondisi</th><th>Tahun</th><th>Keterangan</th><th>Aksi</th></tr></thead><tbody id="inventoryBody"></tbody></table></div>
+  </div>
+</section>
+
+<section id="tambah" class="view">
+  <div class="panel">
+    <div class="panel-head"><h2>Tambah Data Inventaris</h2></div>
+    <form id="addForm">
+      <div class="form-grid">
+        <div class="field"><label>Kode Inventaris</label><input id="kode" required placeholder="Contoh: SAR-001"></div>
+        <div class="field"><label>Nama Barang</label><input id="nama" required placeholder="Contoh: Meja Siswa"></div>
+        <div class="field"><label>Kategori</label><select id="kategori"><option>Perabot</option><option>Elektronik</option><option>Komputer</option><option>Olahraga</option><option>Laboratorium</option><option>Perpustakaan</option><option>Bangunan</option><option>Lainnya</option></select></div>
+        <div class="field"><label>Jumlah</label><input id="jumlah" type="number" min="1" value="1" required></div>
+        <div class="field"><label>Lokasi</label><input id="lokasi" required placeholder="Contoh: Ruang Kelas X"></div>
+        <div class="field"><label>Kondisi</label><select id="kondisi"><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option></select></div>
+        <div class="field"><label>Tahun Perolehan</label><input id="tahun" type="number" min="1900" max="2100" value="2026"></div>
+        <div class="field"><label>Sumber Dana</label><select id="dana"><option>BOS</option><option>Komite Sekolah</option><option>Hibah</option><option>APBD</option><option>Lainnya</option></select></div><div class="field" style="grid-column:1/-1"><label>Keterangan</label><input id="keterangan" placeholder="Catatan kondisi, penempatan, atau informasi lainnya"></div>
+      </div>
+      <div class="form-actions"><button type="reset" class="btn btn-light">Reset</button><button class="btn btn-dark">Simpan Data</button></div>
+    </form>
+  </div>
+</section>
+
+<section id="laporan" class="view">
+  <div class="panel">
+    <div class="panel-head"><h2>Laporan Inventaris</h2><button class="btn btn-dark" onclick="printReport()">Cetak / Simpan PDF</button></div>
+    <div id="reportContent"></div>
+  </div>
+</section>
+
+<section id="tentang" class="view">
+  <div class="panel">
+    <h2>Profil Pengelola Sarpras</h2>
+    <p class="ket"><b>SMAS SARASWATI TOLAI</b> menggunakan sistem ini untuk membantu pencatatan, pemantauan kondisi, lokasi, jumlah, dan riwayat sarana prasarana sekolah.</p>
+    <hr style="border:0;border-top:1px solid #eee;margin:20px 0">
+    <p><b>Wakasek Sarpras</b><br>I Kadek Adi Gunawan, S.Pd.,Gr.</p>
+    <p class="ket">Data disimpan di perangkat/browser ini menggunakan localStorage. Untuk penggunaan resmi multi-pengguna, data dapat dikembangkan menjadi sistem berbasis database dan login.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="modal" id="editModal"><div class="modal-box"><div class="panel-head"><h2>Edit Data Inventaris</h2><button class="btn btn-light" onclick="closeEdit()">Tutup</button></div><form id="editForm"><input type="hidden" id="editIndex"><div class="form-grid">
+<div class="field"><label>Kode</label><input id="eKode" required></div><div class="field"><label>Nama Barang</label><input id="eNama" required></div>
+<div class="field"><label>Kategori</label><select id="eKategori"><option>Perabot</option><option>Elektronik</option><option>Komputer</option><option>Olahraga</option><option>Laboratorium</option><option>Perpustakaan</option><option>Bangunan</option><option>Lainnya</option></select></div>
+<div class="field"><label>Jumlah</label><input id="eJumlah" type="number" min="1" required></div><div class="field"><label>Lokasi</label><input id="eLokasi" required></div>
+<div class="field"><label>Kondisi</label><select id="eKondisi"><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option></select></div><div class="field"><label>Tahun</label><input id="eTahun" type="number"></div>
+<div class="field"><label>Sumber Dana</label><select id="eDana"><option>BOS</option><option>Komite Sekolah</option><option>Hibah</option><option>APBD</option><option>Lainnya</option></select></div><div class="field" style="grid-column:1/-1"><label>Keterangan</label><input id="eKeterangan" placeholder="Keterangan inventaris"></div>
+</div><div class="form-actions"><button type="button" class="btn btn-danger" onclick="deleteFromEdit()">Hapus</button><button class="btn btn-dark">Simpan Perubahan</button></div></form></div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const seed=[
+ {kode:"SAR-001",nama:"Meja Siswa",kategori:"Perabot",jumlah:30,lokasi:"Ruang Kelas X",kondisi:"Baik",tahun:2025,dana:"BOS"},
+ {kode:"SAR-002",nama:"Kursi Siswa",kategori:"Perabot",jumlah:30,lokasi:"Ruang Kelas X",kondisi:"Baik",tahun:2025,dana:"BOS"},
+ {kode:"SAR-003",nama:"Laptop",kategori:"Komputer",jumlah:5,lokasi:"Ruang Lab Komputer",kondisi:"Rusak Ringan",tahun:2023,dana:"BOS"},
+ {kode:"SAR-004",nama:"Proyektor",kategori:"Elektronik",jumlah:2,lokasi:"Ruang Multimedia",kondisi:"Baik",tahun:2024,dana:"BOS"},
+ {kode:"SAR-005",nama:"Bola Voli",kategori:"Olahraga",jumlah:10,lokasi:"Gudang Olahraga",kondisi:"Rusak Berat",tahun:2022,dana:"Komite Sekolah"}
+];
+let data=JSON.parse(localStorage.getItem("sarpras_tolai")||"null")||seed;
+const save=()=>localStorage.setItem("sarpras_tolai",JSON.stringify(data));
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function badge(k){return `<span class="badge ${k==="Baik"?"baik":k==="Rusak Ringan"?"ringan":"rusak"}">${k}</span>`}
+function render(){
+ document.getElementById("statTotal").textContent=data.reduce((a,x)=>a+Number(x.jumlah),0);
+ document.getElementById("statBaik").textContent=data.filter(x=>x.kondisi==="Baik").reduce((a,x)=>a+Number(x.jumlah),0);
+ document.getElementById("statRingan").textContent=data.filter(x=>x.kondisi==="Rusak Ringan").reduce((a,x)=>a+Number(x.jumlah),0);
+ document.getElementById("statRusak").textContent=data.filter(x=>x.kondisi==="Rusak Berat").reduce((a,x)=>a+Number(x.jumlah),0);
+ const recent=data.slice(-5).reverse();
+ document.getElementById("recentBody").innerHTML=recent.length?recent.map(x=>`<tr><td><b>${esc(x.kode)}</b></td><td>${esc(x.nama)}</td><td>${esc(x.lokasi)}</td><td>${badge(x.kondisi)}</td><td>${esc(x.keterangan||"-")}</td></tr>`).join(""):`<tr><td colspan="4" class="empty">Belum ada data.</td></tr>`;
+ const total=Math.max(1,data.reduce((a,x)=>a+Number(x.jumlah),0));
+ document.getElementById("conditionBars").innerHTML=["Baik","Rusak Ringan","Rusak Berat"].map(k=>{let n=data.filter(x=>x.kondisi===k).reduce((a,x)=>a+Number(x.jumlah),0);return `<div style="margin:16px
